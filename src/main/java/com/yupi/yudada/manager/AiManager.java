@@ -16,7 +16,7 @@ import java.util.List;
  * 通用 AI 调用能力
  */
 @Component
-public class AiManager {
+public class  AiManager {
 
     @Resource
     private ClientV4 clientV4;

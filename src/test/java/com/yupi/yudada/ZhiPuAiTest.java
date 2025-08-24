@@ -6,6 +6,7 @@ import com.zhipu.oapi.service.v4.model.ChatCompletionRequest;
 import com.zhipu.oapi.service.v4.model.ChatMessage;
 import com.zhipu.oapi.service.v4.model.ChatMessageRole;
 import com.zhipu.oapi.service.v4.model.ModelApiResponse;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -22,7 +23,7 @@ public class ZhiPuAiTest {
     @Test
     public void test() {
         // 初始化客户端
-//        ClientV4 client = new ClientV4.Builder(KeyConstant.KEY).build();
+        //ClientV4 client = new ClientV4.Builder(KeyConstant.KEY).build();
         // 构建请求
         List<ChatMessage> messages = new ArrayList<>();
         ChatMessage chatMessage = new ChatMessage(ChatMessageRole.USER.value(), "作为一名营销专家，请为智谱开放平台创作一个吸引人的slogan");

@@ -27,6 +27,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -40,8 +41,8 @@ import java.util.stream.Stream;
 /**
  * 题目接口
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
+ *   
  */
 @RestController
 @RequestMapping("/question")
@@ -58,7 +59,7 @@ public class QuestionController {
     private AppService appService;
 
     @Resource
-    private AiManager aiManager;
+    private AiManager  aiManager;
 
     @Resource
     private Scheduler vipScheduler;
@@ -391,7 +392,7 @@ public class QuestionController {
 
     // 仅测试隔离线程池使用
     @Deprecated
-    @GetMapping("/ai_generate/sse/test")
+    @GetMapping(value = "/ai_generate/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter aiGenerateQuestionSSETest(AiGenerateQuestionRequest aiGenerateQuestionRequest,
                                                 boolean isVip) {
         ThrowUtils.throwIf(aiGenerateQuestionRequest == null, ErrorCode.PARAMS_ERROR);

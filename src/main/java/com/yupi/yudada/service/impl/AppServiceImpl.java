@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 /**
  * 应用服务实现
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
+ *   
  */
 @Service
 @Slf4j
@@ -163,27 +163,35 @@ public class  AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppS
 
     /**
      * 分页获取应用封装
-     *
-     * @param appPage
-     * @param request
-     * @return
+     * 该方法用于将App实体列表转换为AppVO视图对象列表，并保持分页信息
+
+ *
+     * @param appPage 分页的App实体对象
+     * @param request HTTP请求对象，可用于获取请求参数等信息
+     * @return 返回分页的AppVO视图对象，包含转换后的数据
      */
     @Override
     public Page<AppVO> getAppVOPage(Page<App> appPage, HttpServletRequest request) {
+    // 获取分页中的记录列表
         List<App> appList = appPage.getRecords();
+    // 创建新的VO分页对象，保持原有的分页参数（当前页、每页大小、总记录数）
         Page<AppVO> appVOPage = new Page<>(appPage.getCurrent(), appPage.getSize(), appPage.getTotal());
+    // 如果记录列表为空，直接返回空的VO分页对象
         if (CollUtil.isEmpty(appList)) {
             return appVOPage;
         }
         // 对象列表 => 封装对象列表
+    // 使用Java 8 Stream API将App实体列表转换为AppVO视图对象列表
         List<AppVO> appVOList = appList.stream().map(app -> {
             return AppVO.objToVo(app);
         }).collect(Collectors.toList());
 
         // 可以根据需要为封装对象补充值，不需要的内容可以删除
-        // region 可选
+        // region 可选 - 这部分代码用于补充额外的关联信息
         // 1. 关联查询用户信息
+    // 从appList中提取所有用户ID，并去重
         Set<Long> userIdSet = appList.stream().map(App::getUserId).collect(Collectors.toSet());
+    // 根据用户ID列表查询用户信息，并按ID分组
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 填充信息
